@@ -7,15 +7,15 @@ using Windows.Web.Http.Headers;
 
 namespace AMQP.ServiceBus
 {
-    public class AzureAMQPServiceProvider : AMQPServiceProvider
+    public class AzureServiceProvider : AMQPServiceProvider
     {
         /// <summary>
-        /// Constractor
+        /// Constructor
         /// </summary>
         /// <param name="ServiceNamespace">Azure service bus name space</param>
         /// <param name="SASKeyName">Name of service access key</param>
         /// <param name="SASKeyValue">Value of service access key</param>
-        public AzureAMQPServiceProvider(string ServiceNamespace, string SASKeyName, string SASKeyValue)
+        public AzureServiceProvider(string ServiceNamespace, string SASKeyName, string SASKeyValue)
         {
             // cache SAS key name and value
             this.SASKeyName = SASKeyName;
@@ -53,8 +53,13 @@ namespace AMQP.ServiceBus
             }
         }
 
-        // Sends a message to the "queueId" queue, given the name and the value to enqueue
-        // Uses an HTTP POST request.
+        /// <summary>
+        /// Sends a message to the "queueId" queue, given the name and the value to queue or topic
+        /// </summary>
+        /// <param name="queueId"></param>
+        /// <param name="body">message body</param>
+        /// <param name="timeToLive">message expiration time in seconds</param>
+        /// <returns></returns>
         public override async Task SendMessage(string queueId, string body, int timeToLive = 60 * 60 * 24 * 30)
         {
             string fullAddress = BaseAddress + queueId + "/messages" + "?timeout=60&api-version=2013-08 ";
@@ -80,9 +85,15 @@ namespace AMQP.ServiceBus
             }
         }
 
-        // Receives and deletes the next message from the given resource (queue, topic, or subscriptionId)
-        // using the resourceId and an HTTP DELETE request.
-        public override async Task<string> ReceiveAndDeleteMessage(string resourceId, string subscriptionId, int timeOutSecond)
+        /// <summary>
+        /// Receives and deletes the next message from the given resource (queue, topic, or subscriptionId)
+        /// using the resourceId and an HTTP DELETE request.
+        /// </summary>
+        /// <param name="resourceId"></param>
+        /// <param name="subscriptionId"></param>
+        /// <param name="timeOutSecond"></param>
+        /// <returns></returns>
+        public override async Task<string> ReceiveAndDeleteMessage(string resourceId, string subscriptionId, int timeOut = 15)
         {
             string queueAddress;
             if (string.IsNullOrWhiteSpace(subscriptionId))
@@ -93,7 +104,7 @@ namespace AMQP.ServiceBus
             {
                 queueAddress = BaseAddress + resourceId + "/subscriptions/" + subscriptionId + "/messages/head";
             }
-            queueAddress += string.Format("?timeout={0}", timeOutSecond);
+            queueAddress += string.Format("?timeout={0}", timeOut);
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, new Uri(queueAddress));
             request.Headers.Authorization = new HttpCredentialsHeaderValue(AuthScheme, Token);
@@ -143,7 +154,7 @@ namespace AMQP.ServiceBus
         /// <param name="subscriptionId">subscription Id</param>
         /// <param name="timeOutSecond">timeout</param>
         /// <returns>the lock key used to unlock the message</returns>
-        public override async Task<string> PeekTopMessage(string resourceId, string subscriptionId, int timeOutSecond)
+        public override async Task<string> PeekTopMessage(string resourceId, string subscriptionId, int timeOut = 15)
         {
             string queueAddress;
             if (string.IsNullOrWhiteSpace(subscriptionId))
@@ -154,7 +165,7 @@ namespace AMQP.ServiceBus
             {
                 queueAddress = BaseAddress + resourceId + "/subscriptions/" + subscriptionId + "/messages/head";
             }
-            queueAddress += string.Format("?timeout={0}", timeOutSecond);
+            queueAddress += string.Format("?timeout={0}", timeOut);
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(queueAddress));
             request.Headers.Authorization = new HttpCredentialsHeaderValue(AuthScheme, Token);

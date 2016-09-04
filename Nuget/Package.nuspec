@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>AMQP.ServiceBus</id>
+    <version>1.0.0.2</version>
+    <authors>malei</authors>
+    <owners>malei</owners>
+    <projectUrl>https://github.com/1Upper/AMQP.ServiceBus</projectUrl>
+    <iconUrl>http://files.softicons.com/download/game-icons/super-mario-icons-by-sandro-pereira/png/64/Shell%20-%20Red.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Azure Servicebus APIs used for UWP app.</description>
+    <releaseNotes>Used by UWP to access Azure service Bus. Provide functions such as creating topic/queue, sending/receiving message.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>Azure ServiceBus Extension UWP</tags>
+    <dependencies>
+      <dependency id="System.Xml.XPath.XDocument" version="4.0.1" />
+      <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.2.2" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="\AMQP.ServiceBus\bin\Release\AMQP.ServiceBus**" target="lib\uap10.0" />
+  </files>
+</package>

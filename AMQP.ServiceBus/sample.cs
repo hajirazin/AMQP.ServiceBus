@@ -1,6 +1,11 @@
-# AMQP.ServiceBus
-There was a time that I badly need a service bus component which enables my UWP to create topic/subscription on AzureServiceBus. Unfortunately, neither Microsoft nor 3rd party component can do it for me. The Microsoft one requires full .Net environment and rejected UWP, the 3rd party library only has part of features I needed. So, I created this one based on the REST interface and customized for UWP project. To use Azure service bus, the service bus namespace and its access identity are required. This is a sample code demonstrating its usage.
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+namespace AMQP.ServiceBus.Sample
+{
     class sample
     {
         public static string ServiceNamespace
@@ -60,3 +65,4 @@ There was a time that I badly need a service bus component which enables my UWP 
 
         }
     }
+}

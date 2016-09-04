@@ -73,13 +73,13 @@ namespace AMQP.ServiceBus
             await Task.FromException(new NotImplementedException());
         }
 
-        public virtual async Task<string> ReceiveAndDeleteMessage(string resourceId, string subscriptionId, int timeOut)
+        public virtual async Task<string> ReceiveAndDeleteMessage(string resourceId, string subscriptionId, int timeOut = 15)
         {
             await Task.FromException(new NotImplementedException());
             return string.Empty;
         }
 
-        public virtual async Task<string> PeekTopMessage(string resourceId, string subscriptionId, int timeOutSecond)
+        public virtual async Task<string> PeekTopMessage(string resourceId, string subscriptionId, int timeOut = 15)
         {
             await Task.FromException(new NotImplementedException());
             return string.Empty;

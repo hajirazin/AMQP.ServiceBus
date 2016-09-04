@@ -6,28 +6,23 @@ using System.Threading.Tasks;
 
 namespace AMQP.ServiceBus
 {
-    public enum AMQPServiceProviderType
+    public enum ServiceProviderType
     {
         Azure = 0,
-        AWS = 1,
     }
 
-    class AMPQServiceProviderFactory
+    public class AMQPServiceProviderFactory
     {
-        public AMPQServiceProviderFactory()
-        {
-        }
-
-        public AMQPServiceProvider CreateServiceProvider(
-            AMQPServiceProviderType type,
+        public static AMQPServiceProvider CreateServiceProvider(
+            ServiceProviderType type,
             string ServiceNamespace,
             string SASKeyName,
             string SASKeyValue)
         {
             switch (type)
             {
-                case AMQPServiceProviderType.Azure:
-                    return new AzureAMQPServiceProvider(
+                case ServiceProviderType.Azure:
+                    return new AzureServiceProvider(
                         ServiceNamespace,
                         SASKeyName,
                         SASKeyValue);
